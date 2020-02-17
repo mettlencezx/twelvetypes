@@ -1,5 +1,5 @@
-import React from 'react';
-import About from '../child/About';
+import React from "react"
+import About from "../child/About"
 
 class AboutPage extends React.Component {
   componentDidMount = () => {
@@ -8,10 +8,10 @@ class AboutPage extends React.Component {
   render() {
     return (
       <div className="ui container">
-        <About detail='yes'/>
+        <About detail="yes" />
       </div>
-    );
+    )
   }
 }
 
-export default AboutPage;
+export default AboutPage

@@ -1,8 +1,7 @@
-import React from 'react';
-import Contact from '../child/Contact';
+import React from "react"
+import Contact from "../child/Contact"
 
 class ContactPage extends React.Component {
-
   componentDidMount = () => {
     window.scrollTo(0, 0)
   }
@@ -12,8 +11,8 @@ class ContactPage extends React.Component {
       <div className="ui container">
         <Contact />
       </div>
-    );
+    )
   }
 }
 
-export default ContactPage;
+export default ContactPage

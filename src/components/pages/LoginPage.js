@@ -1,6 +1,6 @@
-import React from 'react';
-import Login from '../child/Login';
-import JoinNow from '../child/JoinNow';
+import React from "react"
+import Login from "../child/Login"
+// import JoinNow from '../child/JoinNow';
 
 class LoginPage extends React.Component {
   componentDidMount() {
@@ -10,11 +10,11 @@ class LoginPage extends React.Component {
   render() {
     return (
       <div className="ui container">
-        <Login {...this.props}/>
-        <JoinNow />
+        <Login {...this.props} />
+        {/* <JoinNow /> */}
       </div>
-    );
+    )
   }
 }
 
-export default LoginPage;
+export default LoginPage

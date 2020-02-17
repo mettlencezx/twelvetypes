@@ -1,11 +1,11 @@
-import React from 'react';
-import ImageSlider from '../child/ImageSlider';
-import HeadLine from '../child/HeadLine';
-import About from '../child/About';
-import Login from '../child/Login';
-import JoinNow from '../child/JoinNow';
-import Contact from '../child/Contact';
-import faker from 'faker';
+import React from "react"
+import ImageSlider from "../child/ImageSlider"
+import HeadLine from "../child/HeadLine"
+import About from "../child/About"
+import Login from "../child/Login"
+// import JoinNow from '../child/JoinNow';
+import Contact from "../child/Contact"
+import { connect } from "react-redux"
 
 class HomePage extends React.Component {
   componentDidMount() {
@@ -16,16 +16,24 @@ class HomePage extends React.Component {
     return (
       <div>
         <ImageSlider />
-        <HeadLine />
+        {this.props.isSignedIn ? "" : <HeadLine />}
         <div className="ui container">
-          <About image={faker.image.avatar()} alt={faker.lorem.word()} />
-          <Login {...this.props} />
-          <JoinNow />
+          <About />
+          {this.props.isSignedIn ? "" : <Login {...this.props} />}
+          {/* { this.props.isSignedIn ? '' :
+            <JoinNow />
+          } */}
           <Contact />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default HomePage;
+const mapStateToProps = state => {
+  return {
+    isSignedIn: state.auth.isSignedIn
+  }
+}
+
+export default connect(mapStateToProps)(HomePage)

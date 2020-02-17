@@ -1,7 +1,7 @@
-import React from  'react';
-import faker from 'faker';
+import React from "react"
+import faker from "faker"
 
-const UserCard = (props) => {
+const UserCard = props => {
   return (
     <div className="seven wide column">
       <div className="ui card">
@@ -13,13 +13,22 @@ const UserCard = (props) => {
         </div>
         <div className="extra content">
           <div className="center aligned author">
-            <img className="ui avatar image" src={faker.image.avatar()} alt="user avatar" />
+            <img
+              className="ui avatar image"
+              src={faker.image.avatar()}
+              alt="user avatar"
+            />
           </div>
         </div>
-        <button className="ui green button" onClick={() => props.onSubmit('logout')}>Sign Out</button>
+        <button
+          className="ui green button"
+          onClick={() => props.onSubmit("logout")}
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   )
 }
 
-export default UserCard;
+export default UserCard

@@ -1,10 +1,14 @@
-import React from 'react';
-import Divider from './Divider';
+import React from "react"
+import Divider from "./Divider"
 
 const Contact = () => {
   return (
     <div className="ui vertical stripe quote segment">
-      <Divider title="CONTACT US" text="Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered." />
+      <Divider
+        title="CONTACT US"
+        text="Remember that we are always here to answer any questions with regard to your archetype test or if you prefer a deeper insight with regard to our articles and news letters, email us at contact@twelvetypes.com. We are very enthusiastic in hearing your stories because the more we learn about people, the more we strive to make ourselves better and this gives us a chance to guide them towards a better life for them in return.
+"
+      />
       <div className="ui center aligned stackable grid container">
         <div className="center aligned row">
           <div className="eight wide column background-orange form">
@@ -49,7 +53,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Contact;
+export default Contact

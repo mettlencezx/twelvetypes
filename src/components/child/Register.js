@@ -3,12 +3,22 @@ import Divider from './Divider';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions';
 import twelveType from '../../api/twelveType';
+import { Link } from 'react-router-dom';
+import AddUserForm from '../Form/AddUserForm'
 
 class Register extends React.Component {
-  state = { email: '', name: '', password: '', inFetch: false }
+  state = { inFetch: false, message: '', validate: false }
 
   componentDidMount() {
     window.scrollTo(0, 0)
+    if(this.props.isSignedIn === true) {
+      this.props.history.push('/dashboard')
+    }
+  }
+  componentDidUpdate() {
+    if(this.props.isSignedIn === true) {
+      this.props.history.push('/dashboard')
+    }
   }
 
   onInputChange = (event, type) => {
@@ -20,26 +30,40 @@ class Register extends React.Component {
       this.setState({
         name: event.target.value
       })
-    } else {
+    } else if(type === 'password') {
       this.setState({
         password: event.target.value
+      })
+    } else if(type === 'cPassword') {
+      this.setState({
+        cPassword: event.target.value
       })
     }
   }
 
-  onSubmit = async () => {
+  handleSubmit = async (values) => {
     this.setState({ inFetch: true });
     try {
       const response = await twelveType.post('/register', {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password
+        name: values.name,
+        email: values.email,
+        password: values.password
       })
 
-      this.props.signIn(response.data.user.name, response.data.user.archetype, response.data.token);
+      var archetype = '';
+      if(response.data.user.archetype !== '') {
+        archetype = JSON.parse(response.data.user.archetype)
+      }
+      console.log(response)
+      localStorage.setItem('authToken', response.data.token)
+      this.props.signIn(response.data.user.name, archetype, response.data.user.created_at, response.data.token);
       this.props.history.push('/dashboard');
     } catch (error) {
       console.log(error)
+      this.setState({
+        inFetch: false,
+        message: 'fail'
+      })
     }
   }
 
@@ -47,69 +71,16 @@ class Register extends React.Component {
     return (
       <div className="ui container">
         <div className="ui vertical stripe quote segment">
-          <Divider title="REGISTER" />
+          <Divider title="CONTINUE TO YOUR RESULTS" text="Almost done, save your profile and proceed to your results!" />
           <div className="ui center aligned stackable grid container">
             <div className="center aligned row">
               <div className="eight wide column background-orange form">
-                <div className="ui form">
-                  <div className="field">
-                    <label>Name:</label>
-                    <div className="ui left icon input">
-                      <input
-                        type="text"
-                        placeholder="your name"
-                        value={ this.state.name }
-                        onChange={ (e) => this.onInputChange(e, 'name')}
-                      />
-                      <i className="user icon"></i>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label>Email:</label>
-                    <div className="ui left icon input">
-                      <input
-                        type="email"
-                        placeholder="your@mail.com"
-                        value={ this.state.email }
-                        onChange={ (e) => this.onInputChange(e, 'email')}
-                      />
-                      <i className="envelope icon"></i>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label>Password:</label>
-                    <div className="ui left icon input">
-                      <input
-                        type="password"
-                        placeholder="your password"
-                        value={ this.state.password }
-                        onChange={ (e) => this.onInputChange(e, 'password')}
-                      />
-                      <i className="key icon"></i>
-                    </div>
-                  </div>
-                  { this.state.inFetch ?
-                    <div className="ui huge loading button login"></div>
-                    :
-                    <div className="ui huge submit button login" onClick={() => this.onSubmit()}>Register</div>
-                  }
-                </div>
-              </div>
-              <div className="eight wide column outlaw">
-                <div className="contain">
-                  <div className="background-toska">
-                    <h3>www.twelvetypes.com</h3>
-                    <p>contact@twelvetypes.com</p>
-                  </div>
-                  <button className="ui huge button social">
-                    <i className="facebook f icon"></i>
-                  </button>
-                  <button className="ui huge button social">
-                    <i className="instagram icon"></i>
-                  </button>
-                </div>
+                <AddUserForm onSubmit={this.handleSubmit}/>
+                { this.state.message === 'fail' ? <div className="ui red message">Email has already been taken.</div> : ''}
+                { this.state.message === 'success' ? <div className="ui green message">Successfully.</div> : ''}
               </div>
             </div>
+            <Link className="ui huge button" to="/login">Already have an account?</Link>
           </div>
         </div>
       </div>
@@ -117,6 +88,12 @@ class Register extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isSignedIn: state.auth.isSignedIn,
+  }
+}
+
 export default connect(
-null, { signIn }
+mapStateToProps, { signIn }
 )(Register);

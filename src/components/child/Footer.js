@@ -1,5 +1,5 @@
-import React from 'react';
-import logo from '../../assets/images/logo/logo.png';
+import React from "react"
+import logo from "../../assets/images/logo/logo.png"
 
 const Footer = () => {
   return (
@@ -7,7 +7,10 @@ const Footer = () => {
       <div className="ui footer center aligned stackable grid container">
         <div className="ui text center container">
           <img alt="TwelveTypes Logo" src={logo} />
-          <p>Lorem ipsum color nitro ipsum color netro ipsum color netro ipsum color netro ipsum color netro</p>
+          <p>
+            Lorem ipsum color nitro ipsum color netro ipsum color netro ipsum
+            color netro ipsum color netro
+          </p>
         </div>
         <div className="ui celled horizontal list">
           <div className="item">About Us</div>
@@ -31,7 +34,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

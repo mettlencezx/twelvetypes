@@ -1,17 +1,28 @@
-import React from 'react';
-import ArchetypeList from '../child/ArchetypeList';
-import ArchetypeDetail from '../child/ArchetypeDetail';
+import React from "react"
+import ArchetypeList from "../child/ArchetypeList"
+import ArchetypeDetail from "../child/ArchetypeDetail"
+import twelveType from "../../api/twelveType"
 
 class ArchetypePage extends React.Component {
-  state = { detail: false }
+  state = { detail: false, archetypeArray: [] }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     window.scrollTo(0, 0)
+    try {
+      const response = await twelveType.get("/getAllArchetype", {})
+
+      this.setState({
+        archetypeArray: response.data
+      })
+    } catch (er) {
+      console.log(er)
+    }
   }
 
-  onImageClick = () => {
+  onImageClick = val => {
     this.setState({
-      detail: true
+      detail: true,
+      archetype: val
     })
   }
 
@@ -23,15 +34,17 @@ class ArchetypePage extends React.Component {
   render() {
     return (
       <div className="ui vertical stripe quote segment">
-        { this.state.detail ?
+        {this.state.detail ? (
           <ArchetypeDetail
-            onButtonBackClick={ () => this.onButtonBackClick() }
+            onButtonBackClick={() => this.onButtonBackClick()}
+            archetype={this.state.archetype}
           />
-          :
+        ) : (
           <ArchetypeList
-            onImageClick={ () => this.onImageClick() }
+            onImageClick={this.onImageClick}
+            archetypes={this.state.archetypeArray}
           />
-        }
+        )}
       </div>
     )
   }
